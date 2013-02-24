@@ -22,9 +22,6 @@ NSString *const KGModalGradientViewTapped = @"KGModalGradientViewTapped";
 @property (strong, nonatomic) UIColor *modalBackgroundColor;
 @end
 
-@interface KGModalCloseButton : UIButton
-@end
-
 @interface KGModalViewController : UIViewController
 @property (weak, nonatomic) KGModalGradientView *styleView;
 @end
@@ -34,9 +31,7 @@ NSString *const KGModalGradientViewTapped = @"KGModalGradientViewTapped";
 @property (strong, nonatomic) UIViewController *contentViewController;
 @property (weak, nonatomic) KGModalViewController *viewController;
 @property (weak, nonatomic) KGModalContainerView *containerView;
-@property (weak, nonatomic) KGModalCloseButton *closeButton;
 @property (weak, nonatomic) UIView *contentView;
-
 @end
 
 @implementation KGModal
@@ -146,17 +141,21 @@ NSString *const KGModalGradientViewTapped = @"KGModalGradientViewTapped";
     });
 }
 
-- (void)closeAction:(id)sender{
+- (void)closeAction:(id)sender
+{
     [self hideAnimated:self.animateWhenDismissed];
 }
 
-- (void)tapCloseAction:(id)sender{
-    if(self.tapOutsideToDismiss){
+- (void)tapCloseAction:(id)sender
+{
+    if(self.tapOutsideToDismiss)
+    {
         [self hideAnimated:self.animateWhenDismissed];
     }
 }
 
-- (void)hide{
+- (void)hide
+{
     [self hideAnimated:YES];
 }
 
@@ -168,7 +167,10 @@ NSString *const KGModalGradientViewTapped = @"KGModalGradientViewTapped";
     [self hideAnimated:animated withCompletionBlock:nil];
 }
 
-- (void)hideAnimated:(BOOL)animated withCompletionBlock:(void(^)())completion{
+- (void)hideAnimated:(BOOL)animated withCompletionBlock:(void(^)())completion
+{
+    [[NSNotificationCenter defaultCenter] postNotificationName:KGModalClosingNotification object:nil];
+    
     if(!animated){
         [self cleanup];
         return;
@@ -188,9 +190,12 @@ NSString *const KGModalGradientViewTapped = @"KGModalGradientViewTapped";
                 self.containerView.transform = CGAffineTransformScale(CGAffineTransformIdentity, 0.4, 0.4);
             } completion:^(BOOL finished2){
                 [self cleanup];
-                if(completion){
+                
+                if(completion)
+                {
                     completion();
                 }
+                
             }];
         }];
     });

@@ -7,6 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#define KGModalClosingNotification @"KGModalClosingNotification"
+
+@interface KGModalCloseButton : UIButton
+@end
 
 NS_ENUM(NSUInteger, KGModalBackgroundDisplayStyle){
     KGModalBackgroundDisplayStyleGradient,
@@ -14,6 +18,9 @@ NS_ENUM(NSUInteger, KGModalBackgroundDisplayStyle){
 };
 
 @interface KGModal : NSObject
+
+//Make this Public so we can override the action
+@property (weak, nonatomic) KGModalCloseButton *closeButton;
 
 // Determines if the modal should dismiss if the user taps outside of the modal view
 // Defaults to YES
